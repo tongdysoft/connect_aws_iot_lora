@@ -1,0 +1,32 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iot:Publish",
+                "iot:Receive",
+                "iot:PublishRetain"
+            ],
+            "Resource": [
+                "arn:aws:iot:us-east-1:988387762277:topic//aws/lora"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iot:Subscribe",
+            "Resource": [
+                "arn:aws:iot:us-east-1:988387762277:topicfilter//aws/lora"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iot:Connect",
+            "Resource": [
+                "arn:aws:iot:us-east-1:988387762277:client/sdk-java",
+                "arn:aws:iot:us-east-1:988387762277:client/basicPubSub",
+                "arn:aws:iot:us-east-1:988387762277:client/sdk-nodejs-*"
+            ]
+        }
+    ]
+}
