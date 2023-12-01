@@ -123,8 +123,6 @@ An optional company name []:
 }
 ```
 
-- **[完整json文件](lambda-policy.json)**
-
 此时的完整内容应该类似于 **[lambda-policy.json](lambda-policy.json)** 。
 
 6. 点击 `下一步` ，点击 `保存更改` 完成函数权限的设置
