@@ -9,14 +9,14 @@
                 "iot:PublishRetain"
             ],
             "Resource": [
-                "arn:aws:iot:us-east-1:988387762277:topic//aws/lora"
+                "arn:aws:iot:us-east-1:988387762277:topic/<YOUR_TOPIC>"
             ]
         },
         {
             "Effect": "Allow",
             "Action": "iot:Subscribe",
             "Resource": [
-                "arn:aws:iot:us-east-1:988387762277:topicfilter//aws/lora"
+                "arn:aws:iot:us-east-1:988387762277:topicfilter/<YOUR_TOPIC>"
             ]
         },
         {

@@ -13,39 +13,14 @@
 
 4. 选择 `添加目标` 完成目的地的创建
 
-## 生成外部可连接的 MQTT 设置
+## 生成外部可连接的 MQTT Topic 设置
 
-1. 打开 [连接一台设备](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/connectdevice)
-   `https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/connectdevice`
-2. 跟随步骤操作（记下设置的名称 `Thing name`），到 步骤 3 选择操作系统及语言
-
-   ![选择操作系统及语言](./images/连接设备选择操作系统及语言.png)
-
-3. 选择 `下一步` 到 步骤 4 点击`下载连接工具包`
-
-   ![下载连接工具包](./images/下载连接工具包.png)
-
-4. 解压下载的工具包，打开 `start.sh`
-
-   - 找到 `--endpoint` 参数，其后的值为 MQTT 服务器地址，例：
-
-   ```url
-   aq275if561cb4-ats.iot.us-east-1.amazonaws.com
-   ```
-
-   - 找到 `--client_id` 参数，其后的值为 MQTT 客户端 ID，例：
-
-   ```txt
-   sdk-nodejs-v2
-   ```
-
-   - 找到 `--topic` 参数，其后的值为 MQTT Topic，例：
-
-   ```path
-   sdk/test/js
-   ```
-
-5. 此时可以关闭[连接一台设备]页面
+1. 打开 [策略](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/policyhub)
+   `https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/policyhub`
+2. 点击 `创建策略`
+3. 将 **[topic-policy.json](topic-policy.json)** 中的 `<YOUR_TOPIC>` 替换为你的 `Topic` ，例：`/aws/lora`
+4. 将修改后的内容输入到 `策略文档` 中
+5. 点击 `创建策略` 完成策略的创建
 
 ### 生成证书
 
@@ -120,7 +95,7 @@ An optional company name []:
 2. 选择 `创建函数`
 3. 选择 `从头开始创建`
 4. 填写函数名称，运行时选择`Node.js 14.x`，选择 `创建函数`
-5. 将 **[index.js](index.js)** 中的内容输入到新建的函数中。可以根据代码中的注释进行自定义，例如配置 `Topic` 。
+5. 将 **[index.js](index.js)** 中的内容输入到新建的函数中。可以根据代码中的注释进行自定义，例如配置 `topic` 需修改为 [生成外部可连接的 MQTT 设置](#生成外部可连接的-mqtt-topic-设置) 中修改的 `Topic`。
 6. 选择 `Deploy` 完成函数的创建。
 
 ### 设置函数权限
@@ -142,11 +117,13 @@ An optional company name []:
 
 ```json
 {
-    "Effect": "Allow",
-    "Action": "iot:Publish",
-    "Resource": "*"
+  "Effect": "Allow",
+  "Action": "iot:Publish",
+  "Resource": "*"
 }
 ```
+
+- **[完整json文件](lambda-policy.json)**
 
 此时的完整内容应该类似于 **[lambda-policy.json](lambda-policy.json)** 。
 
@@ -161,7 +138,7 @@ An optional company name []:
 5. 在 `Rule name` 中填写规则名称，例：`decoder_js_rule`
 6. 在 `Rule query statement` 中填写`SQL语句`，例：
 
-```
+```sql
 SELECT * FROM 'project/sensor/decoded'
 ```
 

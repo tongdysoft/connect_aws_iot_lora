@@ -7,7 +7,7 @@ exports.handler = async (event) => {
   params["EUI"] = event.WirelessMetadata.LoRaWAN.DevEui;
   var iotdata = new AWS.IotData({ endpoint: 'aq275if561cb4-ats.iot.us-east-1.amazonaws.com' });
   var response = {
-    topic: "sdk/test/python", // 此处填写你的Topic
+    topic: "/aws/lora", // 此处填写你的Topic
     payload: JSON.stringify(params),
     qos: 0
   };
