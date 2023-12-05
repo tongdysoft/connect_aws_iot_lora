@@ -2,17 +2,6 @@
 
 **本指南中需要把地址中的 `us-east-1` 替换为你的区域，如 `cn-northwest-1`**
 
-## 目的地
-
-1. 打开 [目的地](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/wireless/destinations)
-   `https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/wireless/destinations`
-2. 选择 `添加目标`
-3. 选择 `发布到 AWS IoT Core 消息代理` ，并填写 `Topic` ，例：`project/sensor/decoded`
-
-   ![目的地设置](./images/目的地设置.png)
-
-4. 选择 `添加目标` 完成目的地的创建
-
 ## 生成外部可连接的 MQTT Topic 设置
 
 1. 打开 [策略](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/policyhub)
@@ -133,7 +122,7 @@ An optional company name []:
 2. 在 `选择一个源` 中，选择 `AWS IoT`
 3. 选择 `Custom IoT rule`
 4. 在 `Rule` 中，选择 `Create a new rule`
-5. 在 `Rule name` 中填写规则名称，例：`decoder_js_rule`
+5. 在 `Rule name` 中填写规则名称，例：`decoder_rule`
 6. 在 `Rule query statement` 中填写`SQL语句`，例：
 
 ```sql
@@ -141,3 +130,14 @@ SELECT * FROM 'project/sensor/decoded'
 ```
 
 7. 点击 `添加` 完成触发器的创建
+
+## 目的地
+
+1. 打开 [目的地](https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/wireless/destinations)
+   `https://us-east-1.console.aws.amazon.com/iot/home?region=us-east-1#/wireless/destinations`
+2. 选择 `添加目标`
+3. 选择 `发布到 AWS IoT Core 消息代理` ，并填写 `Topic` ，`$aws/rules/<RULES_NAME>`，把`<RULES_NAME>`替换为之前创建的规则名称，例：`$aws/rules/decoder_rule`
+
+   ![目的地设置](./images/目的地设置.png)
+
+4. 选择 `添加目标` 完成目的地的创建
