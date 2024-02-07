@@ -83,8 +83,8 @@ An optional company name []:
    `https://us-east-1.console.aws.amazon.com/lambda/home?region=us-east-1#/functions`
 2. 选择 `创建函数`
 3. 选择 `从头开始创建`
-4. 填写函数名称，运行时选择`Node.js 14.x`，选择 `创建函数`
-5. 将 **[index.js](index.js)** 中的内容输入到新建的函数中。可以根据代码中的注释进行自定义，例如配置 `topic` 需修改为 [生成外部可连接的 MQTT Topic 设置](#生成外部可连接的-mqtt-topic-设置) 中修改的 `Topic`。
+4. 填写函数名称，运行时选择`Node.js 20.x`，选择 `创建函数`
+5. 将 **[index.mjs](index.mjs)** 中的内容输入到新建的函数中。可以根据代码中的注释进行自定义，例如配置 `topic` 需修改为 [生成外部可连接的 MQTT Topic 设置](#生成外部可连接的-mqtt-topic-设置) 中修改的 `Topic`。
 6. 选择 `Deploy` 完成函数的创建。
 
 ### 设置函数权限

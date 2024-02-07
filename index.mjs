@@ -1,47 +1,46 @@
-const AWS = require('aws-sdk');
+import { IoTDataPlaneClient, PublishCommand } from "@aws-sdk/client-iot-data-plane";
 
-exports.handler = async (event) => {
+// Please fill in your `endpoint` in the `region` below. For example: 'us-east-1'
+const client = new IoTDataPlaneClient({ region: 'us-east-1' });
+
+export const handler = async (event) => {
   var data = Buffer.from(event.PayloadData, 'base64');
   var chars = [...data];
   var params = Decoder(chars, event.WirelessMetadata.LoRaWAN.FPort);
-  params["EUI"] = event.WirelessMetadata.LoRaWAN.DevEui;
-  var iotdata = new AWS.IotData({ endpoint: 'aq275if561cb4-ats.iot.us-east-1.amazonaws.com' });
-  var response = {
-    topic: "/aws/lora", // 此处填写你的Topic
+  params["EUI"]= event.WirelessMetadata.LoRaWAN.DevEui;
+
+  // Please fill in the MQTT message topic you will use when sending to the MQTT server in the "topic" section below.
+  const command = new PublishCommand({
+    topic: "sdk/test/python",
     payload: JSON.stringify(params),
     qos: 0
-  };
-
-  // console.log(response);
+  });
 
   return new Promise((resolve, reject) => {
-    iotdata.publish(response, (err, data) => {
-      if (err) {
-        // console.log('=== Error ===');
-        // console.log("ERROR => " + JSON.stringify(err));
+    client.send(command)
+    .then((data) => {
+      // console.log('=== Publish ===');
+      // console.log("publish data: ", data);
 
-        const returnData = {
-          statusCode: 400,
-          body: err,
-        };
-        reject(returnData);
-      }
-      else {
-        // console.log('=== Publish ===');
-        // console.log("publish data: ", response);
-
-        const returnData = {
-          statusCode: 200,
-          body: params,
-        };
-        resolve(returnData);
-      }
+      const returnData = {
+        statusCode: 200,
+        body: params,
+      };
+      resolve(returnData);
+    })
+    .catch((err) => {
+      // console.log('=== Error ===');
+      // console.log("ERROR => " + JSON.stringify(err));
+      
+      const returnData = {
+        statusCode: 400,
+        body: err,
+      };
+      reject(returnData);
     });
   });
 };
 
-
-// For TTN, Helium and Datacake
 function Decoder(bytes, fport) {
   var response = {};
   lppDecode(bytes, 1).forEach(function (field) {
@@ -51,8 +50,6 @@ function Decoder(bytes, fport) {
   return response;
 }
 
-
-// PASTE DECODER HERE
 function lppDecode(bytes) {
   var sensor_types = {
     0: { 'size': 1, 'name': 'digital_in', 'signed': false, 'divisor': 1 },
